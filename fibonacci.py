@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-
-# Fibonacci Sequence Exercise with functions
-# TODO: (Read detailed instructions in the Readme file)
 def get_positive_int():
     while True:
         user_input = input("Enter the number of Fibonacci terms to generate: ")
