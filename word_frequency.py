@@ -1,62 +1,47 @@
-#!/usr/bin/env python3
-
-# Word frequency exercise
-# TODO: (Read detailed instructions in the Readme file)
-
 import re
 
-#This is a function that checks if a text qualifies as a sentence. You do not need to modify this!
 def is_sentence(text):
-    # Check if the text is not empty and is a string
+    
     if not isinstance(text, str) or not text.strip():
         return False
+    stripped = text.lstrip()
 
-    # Check for starting with a capital letter
-    if not text[0].isupper():
+    if not stripped[0].isupper():
         return False
 
-    # Check for ending punctuation
-    if not re.search(r'[.!?]$', text):
+    if not re.search(r'[.!?]$', stripped):
         return False
 
-    # Check if it contains at least one word (non-whitespace characters)
-    if not re.search(r'\w+', text):
+    if not re.search(r'\w+', stripped):
         return False
 
     return True
 
+user_sentence = input("Enter a sentence: ")
 
-def get_sentence():
-    while True:
-        sentence = input("Enter a sentence: ")
-        if len(sentence) > 0 and sentence[0].isupper() and sentence[-1] in ".!?":
-            return sentence
-        else:
-            print("Invalid input. Make sure it starts with a capital letter and ends with a punctuation mark (., !, or ?).")
+while not is_sentence(user_sentence):
 
-def calculate_frequencies(sentence):
-    words = sentence.split()
-    word_list = []
-    freq_list = []
-    for word in words:
-        if word in word_list:
-            index = word_list.index(word)
-            freq_list[index] += 1
-        else:
-            word_list.append(word)
-            freq_list.append(1)
-    return word_list, freq_list
+    print("This does not meet the criteria for a sentence.")
 
-def print_frequencies(words, frequencies):
-    print("Word frequencies:")
-    for word, freq in zip(words, frequencies):
-        print(f"{word}: {freq}")
+    user_sentence = input("Enter a sentence: ")
 
-def main():
-    sentence = get_sentence()
-    words, frequencies = calculate_frequencies(sentence)
-    print_frequencies(words, frequencies)
 
-if __name__ == "__main__":
-    main()
 
+clean_sentence = re.sub(r'[^\w\s]', '', user_sentence).casefold()
+words = clean_sentence.split()
+
+unique_words = []
+frequencies = []
+
+for word in words:
+
+    if word in unique_words:
+        idx = unique_words.index(word)
+        frequencies[idx] += 1
+
+    else:
+        unique_words.append(word)
+        frequencies.append(1)
+
+for i in range(len(unique_words)):
+    print(f"{unique_words[i]}: {frequencies[i]}")
